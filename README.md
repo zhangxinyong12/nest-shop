@@ -24,8 +24,8 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.       
+[学习文档](./docs/README.md)
 ## Installation
 
 ```bash
