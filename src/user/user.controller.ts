@@ -76,4 +76,23 @@ export class UserController {
       signedCookies: req.signedCookies, // 获取加密后 cookie
     };
   }
+
+  // 设置session
+  @Get('setSession')
+  setSession(@Req() req) {
+    req.session.tooken = 'aaaaaaaaaa';
+    return {
+      data: '设置session成功过',
+    };
+  }
+
+  // 获取session
+  @Get('getSession')
+  getSession(@Req() req) {
+    console.log(req.session);
+
+    return {
+      session: req.session.tooken,
+    };
+  }
 }
