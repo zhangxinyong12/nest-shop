@@ -4,6 +4,7 @@ import * as cookieParser from 'cookie-parser';
 import * as session from 'express-session';
 import { Logger } from './middleware/logger.middleware';
 import { AuthGuard } from './guard/auth.guard';
+import { HttpExceptionFilter } from './filter/http-exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -21,6 +22,8 @@ async function bootstrap() {
   // 全局中间件 只能使用函数
   app.use(Logger);
   app.useGlobalGuards(new AuthGuard());
+  // 全局异常过滤器
+  // app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(3000);
   console.log('3000端口启动');
 }

@@ -18,6 +18,7 @@ export class AuthGuard implements CanActivate {
       '守卫获取到的session',
       context.switchToHttp().getRequest().session.tooken,
     );
-    return Math.random() > 0.5;
+    // return Math.random() > 0.5;
+    return true;
   }
 }

@@ -22,6 +22,9 @@ import { FindUserPipe } from 'src/pipe/find-user.pipe';
 import { ValidationPipe } from 'src/pipe/validation.pipe';
 import { UserDto } from 'src/dto/user.dto';
 import { UserGuard } from 'src/guard/user.guard';
+import { UserDocument } from './schemas/user.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 const rootInfo = Joi.object().keys({
   name: Joi.string().required(),
@@ -30,7 +33,10 @@ const rootInfo = Joi.object().keys({
 @Controller('user')
 @UseGuards(UserGuard)
 export class UserController {
-  constructor(private uservervice: UserService) {}
+  constructor(
+    private uservervice: UserService,
+    @InjectModel('User') private userModel: Model<UserDocument>,
+  ) {}
   @Get('list')
   getList(@Query() query) {
     return this.uservervice.find();
@@ -133,5 +139,33 @@ export class UserController {
     return {
       ...userDto,
     };
+  }
+
+  // mongodb
+  @Get('addUser')
+  addUser() {
+    const data = new this.userModel({
+      name: 'zhang001',
+      age: 1,
+      breed: '#333',
+    });
+    return data
+      .save()
+      .then((res) => ({
+        success: true,
+        data: res,
+      }))
+      .catch((error) => ({
+        success: false,
+        msg: error,
+      }));
+  }
+
+  // 查找全部user
+  @Get('findAll')
+  async findAll() {
+    const data = await this.userModel.find({ name: 'zhang001' }).exec();
+    console.log(data);
+    return { data };
   }
 }

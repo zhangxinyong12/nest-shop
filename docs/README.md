@@ -86,7 +86,20 @@ findId(@Param() param) {
 mongo --port 27017 -u "mongo" -p "123456" --authenticationDatabase "admin"
 
 ```
+### 创建超级管理用户
 use admin
 db.createUser({
-user: 'zhang001', pwd: 'zhang123456', roles: [{ role: 'root', db: 'admin' }]
+    user: 'zhang001', pwd: 'zhang123456', roles: [{ role: 'root', db: 'admin' }]
 })
+### 创建用户 指定访问xx数据库
+use eggcms
+db.createUser({
+    user: "eggadmin", pwd: "123456", roles: [ { role: "dbOwner", db: "eggcms" } ]
+})
+
+
+use nest_shop
+db.createUser({
+user: "zhang001", pwd: "zhang123456", roles: [ { role: "dbOwner", db: "nest_shop" } ]
+})
+
