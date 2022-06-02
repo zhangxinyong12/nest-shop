@@ -79,3 +79,14 @@ findId(@Param() param) {
         };
     }
     ```
+## mongodb
+数据库部署在阿里云上
+账号密码登录
+```
+mongo --port 27017 -u "mongo" -p "123456" --authenticationDatabase "admin"
+
+```
+use admin
+db.createUser({
+user: 'zhang001', pwd: 'zhang123456', roles: [{ role: 'root', db: 'admin' }]
+})
