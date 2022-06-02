@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   ParseIntPipe,
   UsePipes,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
@@ -20,11 +21,14 @@ import * as Joi from 'joi';
 import { FindUserPipe } from 'src/pipe/find-user.pipe';
 import { ValidationPipe } from 'src/pipe/validation.pipe';
 import { UserDto } from 'src/dto/user.dto';
+import { UserGuard } from 'src/guard/user.guard';
+
 const rootInfo = Joi.object().keys({
   name: Joi.string().required(),
   age: Joi.number().integer().min(6).max(66).required(),
 });
 @Controller('user')
+@UseGuards(UserGuard)
 export class UserController {
   constructor(private uservervice: UserService) {}
   @Get('list')
@@ -72,7 +76,7 @@ export class UserController {
     res.cookie('name', 'aaaaaaaaa', {
       signed: true, // signed 设置cookie加密
       httpOnly: true,
-      maxAge: 1000 * 6,
+      maxAge: 1000 * 60 * 60,
     });
     return res.send({
       data: 'Cookie 设置成功',
