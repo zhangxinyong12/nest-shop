@@ -9,11 +9,19 @@ import {
   Req,
   UploadedFile,
   UseInterceptors,
+  ParseIntPipe,
+  UsePipes,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
+import { UserPipe } from 'src/pipe/user.pipe';
 import { UserService } from './user.service';
-
+import * as Joi from 'joi';
+import { FindUserPipe } from 'src/pipe/find-user.pipe';
+const rootInfo = Joi.object().keys({
+  name: Joi.string().required(),
+  age: Joi.number().integer().min(6).max(66).required(),
+});
 @Controller('user')
 export class UserController {
   constructor(private uservervice: UserService) {}
@@ -93,6 +101,23 @@ export class UserController {
 
     return {
       session: req.session.tooken,
+    };
+  }
+
+  // // 测试管道 pipe
+  // @Get('testPipe')
+  // testPipe(@Query('id', ParseIntPipe) query) {
+  //   return {
+  //     ...query,
+  //   };
+  // }
+  // 测试管道 自定义 pipe
+
+  @Get('testPipe')
+  @UsePipes(new FindUserPipe(rootInfo))
+  testPipe(@Query() query) {
+    return {
+      ...query,
     };
   }
 }
