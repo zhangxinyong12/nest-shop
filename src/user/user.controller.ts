@@ -18,6 +18,8 @@ import { UserPipe } from 'src/pipe/user.pipe';
 import { UserService } from './user.service';
 import * as Joi from 'joi';
 import { FindUserPipe } from 'src/pipe/find-user.pipe';
+import { ValidationPipe } from 'src/pipe/validation.pipe';
+import { UserDto } from 'src/dto/user.dto';
 const rootInfo = Joi.object().keys({
   name: Joi.string().required(),
   age: Joi.number().integer().min(6).max(66).required(),
@@ -112,12 +114,20 @@ export class UserController {
   //   };
   // }
   // 测试管道 自定义 pipe
-
   @Get('testPipe')
   @UsePipes(new FindUserPipe(rootInfo))
   testPipe(@Query() query) {
     return {
       ...query,
+    };
+  }
+
+  // 使用dto校验
+  @Get('testDtoPipe')
+  @UsePipes(new ValidationPipe()) // 使用管道验证
+  testDtoPipe(@Query() userDto: UserDto) {
+    return {
+      ...userDto,
     };
   }
 }
