@@ -22,7 +22,7 @@ import { FindUserPipe } from 'src/pipe/find-user.pipe';
 import { ValidationPipe } from 'src/pipe/validation.pipe';
 import { UserDto } from 'src/dto/user.dto';
 import { UserGuard } from 'src/guard/user.guard';
-import { UserDocument } from './schemas/user.schema';
+import { UserDocument, UserSchema } from './schemas/user.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -144,11 +144,14 @@ export class UserController {
   // mongodb
   @Get('addUser')
   addUser() {
-    const data = new this.userModel({
-      name: 'zhang001',
+    const user = {
+      name: ' xxxxx01trim ',
       age: 1,
-      breed: '#333',
-    });
+      sex: '1',
+      phone: 1234566,
+      // breed: '#333',
+    };
+    const data = new this.userModel(user);
     return data
       .save()
       .then((res) => ({
@@ -167,5 +170,13 @@ export class UserController {
     const data = await this.userModel.find({ name: 'zhang001' }).exec();
     console.log(data);
     return { data };
+  }
+
+  @Get('updateUser')
+  async updateUser() {
+    return this.userModel.updateMany(
+      { name: 'zhang' },
+      { name: 'zhang002', breed: 'red111' },
+    );
   }
 }
