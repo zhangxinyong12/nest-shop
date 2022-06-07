@@ -8,6 +8,8 @@ import { InitMiddleware } from './middleware/init.middleware';
 import { NewsMiddleware } from './middleware/news.middleware';
 import { UserMiddleware } from './middleware/user.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
+import { OrderModule } from './order/order.module';
+import { OrderItemModule } from './order-item/order-item.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { MongooseModule } from '@nestjs/mongoose';
     UserModule,
     UploadModule,
     NewsModule,
+    OrderModule,
+    OrderItemModule,
   ],
   controllers: [AppController],
   providers: [AppService],
