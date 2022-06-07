@@ -31,21 +31,31 @@ export class OrderController {
 
   @Get('find')
   async find() {
+    // find 一个参数对象是条件 第二次参数返回字段
     const data = await this.orderModel.aggregate([
       {
         $lookup: {
-          from: 'order_item',
-          localField: 'order_id',
-          foreignFiled: 'order_id',
-          as: 'items',
+          from: 'orderitems', // 关联的表
+          localField: 'order_id', // order表的某个字段
+          foreignField: 'order_id', // order_item表中的某个字段
+          as: 'items', // order_item查询数据的放置字段
         },
       },
-      // {
-      //   // $match: {
-      //   //   all_price: { $gte: 90 },
-      //   // },
-      // },
+      // 还可以继续关联其他表
+      // {},
+      // 过滤条件
+      {
+        $match: {
+          uid: {
+            // $lt: 102,
+            $lte: 102,
+          },
+        },
+      },
     ]);
-    return { data };
+    return {
+      data,
+      status: 200,
+    };
   }
 }

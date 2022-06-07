@@ -30,14 +30,33 @@ export class OrderItemController {
       }));
   }
 
-  @Get('find')
-  async find() {
+  @Get('findall')
+  async findAll() {
     // find 一个参数对象是条件 第二次参数返回字段
     const data = await this.orderItemModel
       .find({ _id: '629f642b50811d285418fcf5' }, 'title num')
       .exec();
     return {
       data,
+    };
+  }
+
+  @Get('find')
+  async find() {
+    // find 一个参数对象是条件 第二次参数返回字段
+    const data = await this.orderItemModel.aggregate([
+      {
+        $lookup: {
+          from: 'order_item', // 关联的表
+          localField: 'order_id', // order表的某个字段
+          foreignField: 'order_id', // goods表中的某个字段
+          as: 'items', // goods查询数据的放置字段
+        },
+      },
+    ]);
+    return {
+      data,
+      status: 200,
     };
   }
 }
