@@ -57,19 +57,29 @@ export class NavService {
   }
 
   async remove(id) {
-    const data = await this.navRepository.findOne({
-      where: { id },
-    });
-    if (data) {
-      return await this.navRepository.remove(data);
+    // const data = await this.navRepository.findOne({
+    //   where: { id },
+    // });
+    // if (data) {
+    //   return await this.navRepository.remove(data);
+    // } else {
+    //   return {
+    //     msg: 'id不存在',
+    //     data: {
+    //       id,
+    //     },
+    //   };
+    // }
+    const data = await this.navRepository.delete(id);
+    const { affected } = data;
+    if (affected) {
+      return {
+        data: `id:${id}删除成功`,
+      };
     } else {
       return {
-        msg: 'id不存在',
-        data: {
-          id,
-        },
+        msg: `id:${id}不存在`,
       };
     }
-    // return await this.navRepository.delete(id);
   }
 }
