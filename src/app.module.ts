@@ -12,6 +12,7 @@ import { OrderModule } from './order/order.module';
 import { OrderItemModule } from './order-item/order-item.module';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { CatModule } from './cat/cat.module';
+import { NavModule } from './nav/nav.module';
 
 // 数据库基本配置
 const ormconfig: TypeOrmModuleOptions = {
@@ -43,6 +44,7 @@ const ormconfig: TypeOrmModuleOptions = {
     OrderModule,
     OrderItemModule,
     CatModule,
+    NavModule,
   ],
   controllers: [AppController],
   providers: [AppService],

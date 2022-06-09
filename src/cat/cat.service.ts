@@ -25,6 +25,7 @@ export class CatService {
       return this.CatRepository.save(data);
     } else {
       return {
+        data: [],
         msg: '找不到数据',
       };
     }
